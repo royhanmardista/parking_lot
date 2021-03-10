@@ -3,7 +3,9 @@ import ParkingLot from './models/ParkingLot';
 
 const file = readFileSync('./file_input.txt', 'utf-8');
 
-const arrayOfCommand = file.split('\n').map((item) => item.split(' '));
+const arrayOfCommand = file.split('\n')
+  .map((item) => item.trim())
+  .map((item) => item.split(/\s* \s*/));
 
 let parkingTicket: ParkingLot;
 
