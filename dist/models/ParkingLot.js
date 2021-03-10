@@ -8,10 +8,12 @@ const ParkingTicket_1 = __importDefault(require("./ParkingTicket"));
  * ParkingLot class that will generate object parking lot
  */
 class ParkingLot {
-    constructor(maxSpace, feePerHour = 7.5) {
+    constructor(maxSpace) {
+        this.feePerHour = 10;
         this.parkingTickets = [];
+        this.emptySlots = [];
         this.maxSpace = maxSpace;
-        this.feePerHour = feePerHour;
+        this.emptySlots = [...Array(maxSpace).keys()];
         console.log(`Created parking lot with ${maxSpace} slots`);
     }
     // Check if car ticket with related carNumber exist
@@ -27,36 +29,45 @@ class ParkingLot {
         if (this.parkingTickets.length >= this.maxSpace) {
             console.log('Sorry, parking lot is full');
         }
+        else if (this.emptySlots.length) {
+            const emptySlot = this.emptySlots[0];
+            const parkingTicket = new ParkingTicket_1.default(carNumber, emptySlot);
+            this.parkingTickets.splice(emptySlot, 0, parkingTicket);
+            this.emptySlots.shift();
+            console.log(`Allocated slot number: ${emptySlot + 1}`);
+        }
         else {
-            const foundTicketIndex = this.findCarTicket(carNumber);
-            if (foundTicketIndex !== -1) {
-                console.log('Car already exist, please insert other carNumber');
-            }
-            else {
-                const parkingTicket = new ParkingTicket_1.default(carNumber);
-                this.parkingTickets.push(parkingTicket);
-                console.log(`Allocated slot number: ${this.parkingTickets.length}`);
-            }
+            console.log('Car already exist, please insert other carNumber');
         }
     }
     // Remove car for parking spot
     leavePark(carNumber, timeSpent) {
         const foundTicketIndex = this.findCarTicket(carNumber);
         if (foundTicketIndex !== -1) {
-            const cost = timeSpent * this.feePerHour;
-            console.log(`Registration number ${this.parkingTickets[foundTicketIndex].carNumber} with Slot Number ${foundTicketIndex + 1} is free with Charge ${cost}`);
+            const parkingTicket = this.parkingTickets[foundTicketIndex];
+            this.emptySlots.splice(parkingTicket.slotNumber, 0, parkingTicket.slotNumber);
             this.parkingTickets.splice(foundTicketIndex, 1);
+            console.log(`Registration number ${carNumber} with Slot Number ${parkingTicket.slotNumber + 1} is free with Charge ${this.countFee(timeSpent)}`);
         }
         else {
-            console.log('Car could not be founded, please insert other carNumber');
+            console.log(`Registration number ${carNumber} not found`);
         }
     }
     // Logs car status
     parkStatus() {
         console.log('Slot No. Registration No.');
         this.parkingTickets.forEach((item) => {
-            console.log(`1 ${item.carNumber}`);
+            console.log(`${item.slotNumber + 1} ${item.carNumber}`);
         });
+    }
+    countFee(timeSpent) {
+        if (timeSpent < 0) {
+            return 0;
+        }
+        if (timeSpent <= 2) {
+            return this.feePerHour;
+        }
+        return this.feePerHour + ((timeSpent - 2) * this.feePerHour);
     }
 }
 exports.default = ParkingLot;

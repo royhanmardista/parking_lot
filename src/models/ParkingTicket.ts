@@ -4,8 +4,11 @@
 class ParkingTicket {
   readonly carNumber: string;
 
-  constructor(carNumber: string) {
+  readonly slotNumber: number;
+
+  constructor(carNumber: string, slotNumber: number) {
     this.carNumber = carNumber;
+    this.slotNumber = slotNumber;
   }
 }
 
