@@ -1,0 +1,24 @@
+
+
+  Functional test
+    ✓ Should return stdout exactly same as expectedString variable (1167ms)
+    ✓ Should return stdout exactly same as expectedString variable even with messed up input (1190ms)
+    ✓ Should return invalid parking lot instance initiation (1183ms)
+    ✓ Should return with invalid parameters count (1158ms)
+    ✓ Should return with invalid command (1179ms)
+    ✓ Should return with invalid car ticket (1164ms)
+    ✓ Should return with invalid file name (1189ms)
+
+
+  7 passing (8s)
+
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------|---------|----------|---------|---------|-------------------
+All files          |     100 |    93.94 |     100 |     100 |                   
+ src               |     100 |     91.3 |     100 |     100 |                   
+  index.ts         |     100 |     91.3 |     100 |     100 | 34,43             
+ src/models        |     100 |      100 |     100 |     100 |                   
+  ParkingLot.ts    |     100 |      100 |     100 |     100 |                   
+  ParkingTicket.ts |     100 |      100 |     100 |     100 |                   
+-------------------|---------|----------|---------|---------|-------------------

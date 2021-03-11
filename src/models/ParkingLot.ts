@@ -29,8 +29,9 @@ class ParkingLot {
    * @param carNumber carNumber for instance of parking ticket
    */
   parkCar(carNumber: string) {
-    if (this.parkingTickets.length >= this.maxSpace) {
-      console.log('Sorry, parking lot is full');
+    const foundTicketIndex = this.findCarTicket(carNumber);
+    if (foundTicketIndex !== -1) {
+      console.log('Car already exist, please insert other carNumber');
     } else if (this.emptySlots.length) {
       const emptySlot = this.emptySlots[0];
       const parkingTicket = new ParkingTicket(carNumber, emptySlot);
@@ -38,7 +39,7 @@ class ParkingLot {
       this.emptySlots.shift();
       console.log(`Allocated slot number: ${emptySlot + 1}`);
     } else {
-      console.log('Car already exist, please insert other carNumber');
+      console.log('Sorry, parking lot is full');
     }
   }
 
@@ -57,14 +58,15 @@ class ParkingLot {
 
   // Logs car status
   parkStatus() {
-    console.log('Slot No. Registration No.');
+    console.log('Slot No.    Registration No.');
     this.parkingTickets.forEach((item) => {
-      console.log(`${item.slotNumber + 1} ${item.carNumber}`);
+      console.log(`${item.slotNumber + 1}           ${item.carNumber}`);
     });
   }
 
+  // Get fee for leaving car
   protected countFee(timeSpent: number): number {
-    if (timeSpent < 0) {
+    if (timeSpent <= 0) {
       return 0;
     } if (timeSpent <= 2) {
       return this.feePerHour;
