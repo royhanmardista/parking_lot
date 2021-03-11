@@ -6,6 +6,7 @@
   "scripts": {
     "build": "tsc",
     "test": "nyc mocha --slow 2000 -R spec 'dist/tests/*.js' 2>&1 | tee functional_spec/reports/report.txt",
+    "setup" : "npm i && npm run build && npm run test",
     "start": "node ./dist/index.js",
     "build:live": "nodemon --watch 'src/**/*.ts' --exec \"ts-node\" src/index.ts"
   },
